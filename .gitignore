@@ -1,0 +1,6 @@
+*.pyc
+migrations/
+media/
+logs/
+.idea/
+

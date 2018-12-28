@@ -2,7 +2,6 @@
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
 from rest_framework import exceptions, status
-from rest_framework.compat import set_rollback
 from rest_framework.response import Response
 
 
@@ -35,11 +34,11 @@ def exception_handler(exc, context):
             'field_name': field_name
         }
 
-        set_rollback()
+        # set_rollback()
         return Response(err_data, status=200, headers=headers)
 
     elif isinstance(exc, Http404):
-        set_rollback()
+        # set_rollback()
         err_data = {
             'code': 404,
             'msg': '请求失败'
@@ -51,6 +50,6 @@ def exception_handler(exc, context):
             'code': 403,
             'msg': '请求失败'
         }
-        set_rollback()
+        # set_rollback()
         return Response(err_data, status=status.HTTP_403_FORBIDDEN)
 

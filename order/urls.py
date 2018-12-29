@@ -1,13 +1,13 @@
 # coding: utf-8
-from django.urls import path
+from django.conf.urls import url
 from rest_framework.routers import SimpleRouter
 
-from order.views import GoodsView
+from order.views import *
 
 router = SimpleRouter()
 router.register('goods', GoodsView)
 urlpatterns = router.urls
 
-# urlpatterns = [
-#     path('goods', GoodsView.as_view()),
-# ]
+urlpatterns += [
+    url('second-kill', SecondKillView.as_view()),
+]

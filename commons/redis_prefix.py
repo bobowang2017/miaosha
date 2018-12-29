@@ -8,4 +8,5 @@ class RedisPrefix(Enum):
     ORDER = 'order'
     TOKEN = 'token'
     GOOD = 'good'
+    GOOD_STOCK = 'good:stock'
 

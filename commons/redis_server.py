@@ -15,8 +15,7 @@ class RedisClient:
 
     def get_instance(self, prefix, key, delete_cache=False):
         """根据key获取value（string类型数据操作）"""
-        key = '%s:%s' % (prefix, str(key))
-        redis_instance = self.redis_client.get(key)
+        redis_instance = self.redis_client.get('%s:%s' % (prefix, str(key)))
         if not redis_instance:
             return None
         try:
@@ -29,24 +28,19 @@ class RedisClient:
 
     def set_instance(self, prefix, key, value, default_valid_time=redis_valid_time):
         """设置键值对（string类型数据操作）"""
-        key = '%s:%s' % (prefix, str(key))
-        self.redis_client.set(key, value, default_valid_time)
-        return
+        return self.redis_client.set('%s:%s' % (prefix, str(key)), value, default_valid_time)
 
-    def delete(self, key):
+    def delete(self, prefix, key):
         """删除键值对（string类型数据操作）"""
-        self.redis_client.delete(key)
-        return
+        return self.redis_client.delete('%s:%s' % (prefix, str(key)))
 
-    def incr_instance(self, key, amount=1):
+    def incr_instance(self, prefix, key, amount=1):
         """根据key自增amount（string类型数据操作）"""
-        self.redis_client.incr(key, amount)
-        return
+        return self.redis_client.incr('%s:%s' % (prefix, str(key)), amount)
 
-    def decr_instance(self, key, amount=1):
+    def decr_instance(self, prefix, key, amount=1):
         """根据key自减amount（string类型数据操作）"""
-        self.redis_client.decr(key, amount)
-        return
+        return self.redis_client.decr('%s:%s' % (prefix, str(key)), amount)
 
 
 redis_cli = RedisClient()

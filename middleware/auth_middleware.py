@@ -16,9 +16,7 @@ log = logging.getLogger('django')
 class AuthMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
-        log.info('*' * 60)
         token = request.META.get('HTTP_AUTHORIZATION') or request.META.get('HTTP_TOKEN')
-        log.info(token)
         if not token:
             return HttpResponse(content=json.dumps(dict(code=400, msg='please take your token in header')),
                                 content_type='application/json')

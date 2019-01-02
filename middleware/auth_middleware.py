@@ -4,7 +4,10 @@ import json
 from django.http import HttpResponse
 from django.utils.deprecation import MiddlewareMixin
 
+from commons.redis_prefix import RedisPrefix
+from commons.redis_server import redis_cli
 from order.models import User
+from order.serializers import UserSerializer
 
 
 class AuthMiddleware(MiddlewareMixin):
@@ -16,7 +19,10 @@ class AuthMiddleware(MiddlewareMixin):
                                 content_type='application/json')
         try:
             # user_id = token_auth(token)
-            user_info = User.objects.first()
+            user_info = redis_cli.get_instance(RedisPrefix.USER.value, 'test')
+            if not user_info:
+                user_info = User.objects.first()
+                redis_cli.set_instance(RedisPrefix.USER.value, 'test', UserSerializer(user_info).data)
             request.user_info = user_info
         except Exception as e:
             return HttpResponse(content=json.dumps(dict(code=401, msg='token auth failed')))

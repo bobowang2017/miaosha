@@ -8,6 +8,9 @@ from commons.redis_prefix import RedisPrefix
 from commons.redis_server import redis_cli
 from order.models import User
 from order.serializers import UserSerializer
+import logging
+
+log = logging.getLogger('django')
 
 
 class AuthMiddleware(MiddlewareMixin):
@@ -24,5 +27,6 @@ class AuthMiddleware(MiddlewareMixin):
                 user_info = User.objects.first()
                 redis_cli.set_instance(RedisPrefix.USER.value, 'test', UserSerializer(user_info).data)
             request.user_info = user_info
+            log.info('=' * 60)
         except Exception as e:
             return HttpResponse(content=json.dumps(dict(code=401, msg='token auth failed')))

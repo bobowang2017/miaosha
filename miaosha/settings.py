@@ -92,7 +92,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': 3306,
         'CHARSET': 'UTF-8',
-        'ATOMIC_REQUESTS': True,
+        'ATOMIC_REQUESTS': False,
         'OPTIONS': {'charset': 'utf8mb4'},
     }
 }
